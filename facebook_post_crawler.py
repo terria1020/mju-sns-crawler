@@ -9,7 +9,7 @@ import re
 
 # Made by 7heKnight
 
-# ========================== Pre-Declare==========================
+# ========================== Pre-Declare ==========================
 DRIVER = 'chromedriver.exe'
 URL = 'https://facebook.com'
 DATA_FILE = 'data.txt'
