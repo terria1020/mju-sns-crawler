@@ -86,7 +86,9 @@ def checking_unwantted_link(post):
             post = re.sub(r'[?&]__cft__.*[/]{0,1}', '', post)
             post = re.sub(r'[?&]__xts__.*[/]{0,1}', '', post)
             post = re.sub(r'[?&]type=.*[/]{0,1}', '', post)
-            post = re.sub(r'[?&]?comment_id=.*[/]{0,1}', '', post)
+            post = re.sub(r'[?&]comment_id=.*[/]{0,1}', '', post)
+            post = re.sub(r'[?&]notif_id=.*[/]{0,1}', '', post)
+            post = re.sub(r'[?&].*[/]{0,1}', '', post)
             return post
     return ''
 
