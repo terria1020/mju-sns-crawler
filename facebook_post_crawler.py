@@ -9,7 +9,7 @@ import re
 
 # Made by 7heKnight
 
-# ========================== Pre-Declare ==========================
+# ========================== Pre-Declare==========================
 DRIVER = 'chromedriver.exe'
 URL = 'https://facebook.com'
 DATA_FILE = 'data.txt'
@@ -37,13 +37,14 @@ def write_to_text(list_links):
         # else:
 
 # ========================== Browser Process ==========================
-def block_options():
-    chrome_options = webdriver.ChromeOptions()
-    prefs = {"profile.default_content_setting_values.notifications": 2}
-    chrome_options.add_experimental_option("prefs", prefs)
-    chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
-    chrome_options.add_argument('--headless') # This will make the chrome executed in hidden
-    return chrome_options
+def chrome_options():
+    options = webdriver.ChromeOptions()
+    # options.add_argument('--no-sandbox') # This will prevent malicious code, not useful, just note to remember.
+    options.headless = True # This will make the chrome executed in hidden process
+    # options.add_argument('--headless') # This is another way of the upper
+    options.add_experimental_option('excludeSwitches', ['enable-logging']) # This will disable print the console information
+    options.add_experimental_option("prefs", {"profile.default_content_setting_values.notifications": 2}) # Disable the asking allow notification or block
+    return options
 
 def page_down(driver):
     actions = ActionChains(driver)
@@ -87,8 +88,6 @@ def checking_unwantted_link(post):
             post = re.sub(r'[?&]__xts__.*[/]{0,1}', '', post)
             post = re.sub(r'[?&]type=.*[/]{0,1}', '', post)
             post = re.sub(r'[?&]comment_id=.*[/]{0,1}', '', post)
-            post = re.sub(r'[?&]notif_id=.*[/]{0,1}', '', post)
-            post = re.sub(r'[?&].*[/]{0,1}', '', post)
             return post
     return ''
 
@@ -108,8 +107,7 @@ if __name__ == '__main__':
     # Declare the driver (Must follow the version of browser)
     # Chrome driver: https://sites.google.com/a/chromium.org/chromedriver/downloads
     # Other driver, get here: https://selenium-python.readthedocs.io/installation.html#drivers
-    browser = webdriver.Chrome(DRIVER, chrome_options=block_options())
-    browser.get(URL)
+    browser = webdriver.Chrome(DRIVER, chrome_options=chrome_options())
 
     # if user press yes, this option will run
     if opinion:
@@ -119,6 +117,7 @@ if __name__ == '__main__':
             USER = input('[*] Enter Username: ')
             PASSWORD = input('[*] Enter Password: ')
 
+        browser.get(URL)
         # Entering the username
         userID = browser.find_element_by_id('email')
         userID.send_keys(USER)
@@ -136,6 +135,7 @@ if __name__ == '__main__':
         button.click()
 
     # ============= Get Post links in groups =============
+    sleep(1)
     browser.get(sys.argv[1])
     sleep(1.5)
 
