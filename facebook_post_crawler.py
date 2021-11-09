@@ -1,16 +1,21 @@
+import platform
+import re
+import sys
+from random import randint
+from time import sleep
+
+from bs4 import BeautifulSoup
+from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
-from selenium import webdriver
-from bs4 import BeautifulSoup
-from time import sleep
-from random import randint
-import sys
-import re
 
 # Made by 7heKnight
 
 # ========================== Pre-Declare==========================
-DRIVER = 'chromedriver.exe'
+if platform.system() == "Darwin": # Mac OS
+    DRIVER = 'driver/chromedriver'
+elif platform.system == "Windows": # Windows
+    DRIVER = 'driver\\chromedriver.exe'
 URL = 'https://facebook.com'
 DATA_FILE = 'data.txt'
 

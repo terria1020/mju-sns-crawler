@@ -1,10 +1,14 @@
-import time
+import html
 import os
+import platform
+import time
+
 import requests
-from utils.browser import Browser
 from docopt import docopt
 from tqdm import tqdm
-import html
+
+from utils.browser import Browser
+
 
 def downloadImage(imageUrl, imagePath):
     img_data = requests.get(imageUrl).content
@@ -102,7 +106,11 @@ def extractCaption(data):
     return result
 
 def runCrawl(limitNum = 0, queryList = [], is_all_comments=False):
-    browser = Browser("driver/chromedriver")
+    if platform.system() == "Darwin": # Mac OS
+        DRIVER = 'driver/chromedriver'
+    elif platform.system == "Windows": # Windows
+        DRIVER = 'driver\\chromedriver.exe'
+    browser = Browser(DRIVER)
     for query in queryList:
         browser.clearLink()
         makeDir("data")
