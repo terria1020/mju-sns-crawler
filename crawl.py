@@ -7,6 +7,8 @@ import requests
 from docopt import docopt
 from tqdm import tqdm
 
+import yaml
+
 from utils.browser import Browser
 
 
@@ -135,6 +137,16 @@ def extractCaption(data):
         result = ""
     return result
 
+# query list file 읽어오기
+def get_query_with_file():
+    try:
+        with open("querylist.yaml", "r") as file:
+            return yaml.safe_load(file)
+    except Exception as e:
+        print("please create 'querylist.yaml' or use utils/yamlutil.py!")
+        exit(1)
+
+
 def runCrawl(limitNum = 0, queryList = [], is_all_comments=False):
     #OS check
     if platform.system() == "Darwin": # Mac OS
@@ -234,13 +246,14 @@ def runCrawl(limitNum = 0, queryList = [], is_all_comments=False):
 def main():
     args = docopt("""
     Usage:
-        crawl.py [-q QUERY] [-n NUMBER] [--a] [-h HELP]
+        crawl.py [-q QUERY] [-n NUMBER] [--a] [-f] [-h HELP]
 
     Options:
         -q QUERY  username, add '#' to search for hashtags, e.g. 'username' or '#hashtag'
                   For multiple query seperate with comma, e.g. 'username1, username2, #hashtag'
         -n NUM    number of returned posts [default: 1000]
         --a       collect all comments
+        -f        get query list with file. file type ALWAYS LIKE 'querylist.yaml'
         -h HELP   show this help message and exit
     """)
     hasChromeDriver = False
@@ -256,12 +269,17 @@ def main():
     limitNum = int(args.get('-n', 1000))
     query = args.get('-q', "")
     is_all_comments = args.get('--a', False)
+    is_have_file = args.get('-f', "")
     if not query:
-        print('Please input query!')
+        if not is_have_file:
+            print('Please input query or query file!')
+            exit(1)
+        else:
+            queryList = get_query_with_file()
+            print(queryList)
     else:
-
         queryList = query.replace(" ", "").split(",")
-        runCrawl(limitNum=limitNum, queryList=queryList, is_all_comments=is_all_comments)
+    #runCrawl(limitNum=limitNum, queryList=queryList, is_all_comments=is_all_comments)
 
 
 main()
