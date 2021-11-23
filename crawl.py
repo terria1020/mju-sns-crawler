@@ -10,6 +10,7 @@ from tqdm import tqdm
 import yaml
 
 from utils.browser import Browser
+from utils.database_manager import DatabaseManager
 
 
 
@@ -155,12 +156,14 @@ def runCrawl(limitNum = 0, queryList = [], is_all_comments=False):
         DRIVER = 'driver\\chromedriver.exe'
     browser = Browser(DRIVER)
 
+    dbmgr = DatabaseManager("user_account.db")
+    account = dbmgr.get_insta_acc()
     # 로그인 먼저 하고 시작
     browser.goToPage("https://www.instagram.com/accounts/login/")
     time.sleep(2.0)
-    browser.driver.find_element_by_name("username").send_keys("아이디")
+    browser.driver.find_element_by_name("username").send_keys(account[0])
     time.sleep(2.0)
-    browser.driver.find_element_by_name("password").send_keys("비밀번호")
+    browser.driver.find_element_by_name("password").send_keys(account[1])
     time.sleep(2.0)
     browser.driver.find_element_by_xpath('//*[@id="loginForm"]/div/div[3]/button/div').click()
     time.sleep(2.0)
@@ -271,15 +274,16 @@ def main():
     is_all_comments = args.get('--a', False)
     is_have_file = args.get('-f', "")
     if not query:
+        print("1")
         if not is_have_file:
             print('Please input query or query file!')
             exit(1)
-        else:
+        elif is_have_file:
             queryList = get_query_with_file()
             print(queryList)
     else:
         queryList = query.replace(" ", "").split(",")
-    #runCrawl(limitNum=limitNum, queryList=queryList, is_all_comments=is_all_comments)
+    runCrawl(limitNum=limitNum, queryList=queryList, is_all_comments=is_all_comments)
 
 
 main()
