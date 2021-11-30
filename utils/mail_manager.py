@@ -81,7 +81,7 @@ class DataReader():
 
             for seed in file_list:
                 mailmgr.add_image(f"data/{task}/{seed}/image.jpg", MailManager.CID_NUMBERING)
-                with open(f"data/{task}/{seed}/info.txt", "r") as f:
+                with open(f"data/{task}/{seed}/info.txt", "r", encoding='UTF8') as f:
                     lines = f.readlines()
                 content = lines[1] + "<br>" + lines[4] + "<br>" + lines[10]
                 mailmgr.add_insta_contents(content, MailManager.CID_NUMBERING)

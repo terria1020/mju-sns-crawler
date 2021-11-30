@@ -67,7 +67,7 @@ def GUIstart(browser):
     entId = Entry(root, width=30) # 아이디 입력
     entId.insert(0, "sample@sample.com")
     def entryclear(event):
-        if entId.get() == "enter id":    # 초기값인 경우 마우스클릭하면 지워지도록,...
+        if entId.get() == "sample@sample.com":    # 초기값인 경우 마우스클릭하면 지워지도록,...
             entId.delete(0,len(entId.get()))
     entId.bind("<Button-1>", entryclear)  # 마우스를 클릭하면 entryclear를 동작시켜라. 
     entId.pack(pady=10)
