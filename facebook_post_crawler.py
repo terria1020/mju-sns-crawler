@@ -9,6 +9,10 @@ from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 
+from docopt import docopt
+
+import yaml
+
 # Made by 7heKnight
 
 # ========================== Pre-Declare==========================
@@ -18,12 +22,26 @@ elif platform.system == "Windows": # Windows
     DRIVER = 'driver\\chromedriver.exe'
 URL = 'https://facebook.com'
 DATA_FILE = 'data.txt'
+QUERY_FILE = 'querylist.yaml'
 
 # Input user and password here will not ask user to input uname and password
 USER = ''
 PASSWORD = ''
 
 # ========================== File Process ==========================
+def is_query_exist():
+    try:
+        open(QUERY_FILE, 'r')
+        return True
+    except:
+        return False
+
+def read_from_query():
+    with open(QUERY_FILE, 'r') as file:
+        query = yaml.safe_load(file)["Facebook"]
+    link = URL + "/" + query[0]
+    return link
+
 def is_file_exist():
     try:
         open(DATA_FILE, 'r')
@@ -45,7 +63,7 @@ def write_to_text(list_links):
 def chrome_options():
     options = webdriver.ChromeOptions()
     # options.add_argument('--no-sandbox') # This will prevent malicious code, not useful, just note to remember.
-    options.headless = True # This will make the chrome executed in hidden process
+    #options.headless = True # This will make the chrome executed in hidden process
     # options.add_argument('--headless') # This is another way of the upper
     options.add_experimental_option('excludeSwitches', ['enable-logging']) # This will disable print the console information
     # 크롬 드라이버에 추가 옵션을 설정 해 주는 메소드, 인자: key, value로 제공되어 있다.
@@ -106,14 +124,18 @@ def checking_unwantted_link(post):
 # ============================= Main Section =============================
 if __name__ == '__main__':
     if len(sys.argv) == 1: # 실행 인자 개수 파악
-        link = get_links() # url을 입력받는 함수 호출
+        if (is_query_exist()):
+            link = read_from_query()
+        else:
+            link = get_links() # url을 입력받는 함수 호출
         sys.argv.append(link) # argv[2]에 url을 붙여줌
     if len(sys.argv) > 2:
         sys.exit('[-] Too many arguments. Could not parse.')
-
     # Prepage process
-    opinion = required_login() # 로그인을 할 것인지 선택하게 도와주는 함수 호출
-    length_crawling_post = check_length() # 가져올 포스팅 수를 입력받는 함수 호출
+    # opinion = required_login() # 로그인을 할 것인지 선택하게 도와주는 함수 호출
+    opinion = False
+    # length_crawling_post = check_length() # 가져올 포스팅 수를 입력받는 함수 호출
+    length_crawling_post = 10
     print('\n[*] Okay! Executing...\n')
 
     # Declare the driver (Must follow the version of browser)
