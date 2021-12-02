@@ -7,6 +7,7 @@ from utils.mail_manager import MailManager, DataReader
 from utils.yamlmanager import YamlManager
 import facebook_post_crawler
 import crawl
+import mjucrawl
 
 def face_func(entId, entPw): # face버튼 눌렀을 때 함수
     #print("facebook 버튼 클릭됨")
@@ -40,12 +41,12 @@ def deleteTask(lb): # delete task 버튼 눌렀을 때 함수
     YamlManager.remove("Tasklist", lb.get(ANCHOR))
     lb.delete(ANCHOR)
 
-def printList(listbox, lb): # 추가 사이트 선택한것들 출력
+def printList(listbox, lb, browser): # 추가 사이트 선택한것들 출력 (listBtn 눌렀을때)
     print(listbox.curselection())
-    print(lb.get(0, lb.size()))
+    #print(lb.get(0, lb.size()))
+    mjucrawl.main(browser, listbox.curselection())
 
-'''def insta_end_func(root):
-    root.quit()'''
+
 
 
 
@@ -188,7 +189,7 @@ def GUIstart(browser):
     listbox.insert(2, "명대신문")
     listbox.pack()
 
-    listBtn = Button(root, text="listBtn", padx=10, pady=10, command=lambda: printList(listbox, lb))
+    listBtn = Button(root, text="학교 사이트 크롤링", padx=10, pady=10, command=lambda: printList(listbox, lb, browser))
     listBtn.pack(pady=3)
 
     entEmail = Entry(root, width=30) # 이메일 입력

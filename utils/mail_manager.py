@@ -6,8 +6,8 @@ from string import Template
 import os
 
 host = {
-    'id': 'sampleid',
-    'pw': 'samplepw'
+    'id': 'any991020',
+    'pw': 'jaehan1020!'
 }
 
 server = 'smtp.naver.com'

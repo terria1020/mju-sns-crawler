@@ -16,6 +16,9 @@ class Browser:
 
     def goToPage(self,url):
         self.driver.get(url)
+
+    def switch(self, frame):
+        self.driver.switch_to.frame(frame)
     
     def getPageSource(self):
         return self.driver.page_source
