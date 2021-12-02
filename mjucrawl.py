@@ -49,7 +49,7 @@ def crawlMju():
     for link in links:
         url = link.attrs['href']
         title = link.find('strong').text
-        str = title +"\t\t"+ url
+        str = title +"\t\t"+ "https://mju.ac.kr" + url
         print(title,url)
         write_to_text(str)
 
@@ -90,8 +90,8 @@ def crawlCom(driver):
     dateof2 = date2.text
     print(title1.strip(),url1,dateof1.strip())
     print(title2.strip(),url2,dateof2.strip())
-    str1 = title1.strip() +"\t"+ url1 +"\t"+ dateof1.strip()
-    str2 = title2.strip() +"\t"+ url2 +"\t"+ dateof2.strip()
+    str1 = title1.strip() +"\t"+ "https://jw4.mju.ac.kr/user/" + url1 +"\t"+ dateof1.strip()
+    str2 = title2.strip() +"\t"+ "https://jw4.mju.ac.kr/user/" + url2 +"\t"+ dateof2.strip()
     write_to_text(str1)
     write_to_text(str2)
 

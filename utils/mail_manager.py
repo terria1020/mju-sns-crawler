@@ -26,7 +26,6 @@ class MailManager():
         <head>
         </head>
         <body>
-            <h1>새 알림이 있습니다.</h1>
             <h3> 이 메일은 명지대학교 크롤러에 의해 자동 작성된 글입니다.</h3>
             <br>
             <hr>
@@ -41,14 +40,6 @@ class MailManager():
         self.smtp.ehlo()
         self.smtp.starttls()
 
-    def add_facebook_contents(self, content: str):
-        self.contents = content
-        return self
-    
-    def add_insta_contents(self, content: str, cid_numbering: int):
-        self.contents = self.contents + "<hr>" + f"<br><img src='cid:capture{cid_numbering}'><br>" + content
-        return self
-
     def add_title(self, title: str):
         self.data['Subject'] = title
         return self
@@ -59,12 +50,11 @@ class MailManager():
             image.add_header('Content-ID', f'<capture{cid_numbering}>')
             self.data.attach(image)
 
-    # def add_contents(self):
-    #     text = MIMEText(self.template_contents.substitute(fb_contents=self.fb_contents, insta_contents=self.insta_contents), _subtype='html', _charset='utf-8')
-    #     self.data.attach(text)
+    def data_append(self, content: str):
+        if content != "":
+            self.contents = self.contents + content + "<hr>"
 
     def send(self) -> None:
-        #self.add_contents()
         text = MIMEText(self.template_contents.substitute(contents=self.contents), _subtype='html', _charset='utf-8')
         self.data.attach(text)
         self.smtp.login(host['id'], host['pw'])
@@ -75,14 +65,37 @@ class DataReader():
     def insta_read(tasklist: list, mailmgr: MailManager):
         content = ""
         for task in tasklist:
-            file_list = os.listdir(f"data/{task}")
-            if ".DS_Store" in file_list:
-                file_list.remove(".DS_Store")
+            try:
+                file_list = os.listdir(f"data/{task}")
+            except FileNotFoundError:
+                return ""
+            else:
+                if ".DS_Store" in file_list:
+                    file_list.remove(".DS_Store")
 
-            for seed in file_list:
-                mailmgr.add_image(f"data/{task}/{seed}/image.jpg", MailManager.CID_NUMBERING)
-                with open(f"data/{task}/{seed}/info.txt", "r", encoding='UTF8') as f:
-                    lines = f.readlines()
-                content = lines[1] + "<br>" + lines[4] + "<br>" + lines[10]
-                mailmgr.add_insta_contents(content, MailManager.CID_NUMBERING)
-                MailManager.CID_NUMBERING += 1
+                for seed in file_list:
+                    mailmgr.add_image(f"data/{task}/{seed}/image.jpg", MailManager.CID_NUMBERING)
+                    with open(f"data/{task}/{seed}/info.txt", "r", encoding='UTF8') as f:
+                        lines = f.readlines()
+                    content = content + "<hr>" +f"<br><img src='cid:capture{MailManager.CID_NUMBERING}'><br>" + lines[1] + "<br>" + lines[4] + "<br>" + lines[10]
+                    MailManager.CID_NUMBERING += 1
+        return content
+
+    @staticmethod
+    def extra_read(mailmgr: MailManager):
+        content = ""
+
+        try:
+            with open("mju.txt", "r", encoding="UTF8") as file:
+                line = file.readlines()
+                for l in line:
+                    content = content + l + "<br>"
+        except FileNotFoundError:
+            return ""
+        else:
+            return content
+
+    @staticmethod
+    def facebook_read(mailmgr: MailManager):
+        content = ""
+        return content

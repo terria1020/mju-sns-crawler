@@ -20,7 +20,11 @@ def complete_func(entEmail): # 완료 버튼 눌렀을 때 함수
     mailmgr = MailManager(entEmail.get())
     tasklist = YamlManager.read("Tasklist")
 
-    DataReader.insta_read(tasklist=tasklist, mailmgr=mailmgr)
+    mailmgr.add_title("새 알림이 있습니다.")
+
+    mailmgr.data_append(DataReader.facebook_read(mailmgr))
+    mailmgr.data_append(DataReader.insta_read(tasklist, mailmgr))
+    mailmgr.data_append(DataReader.extra_read(mailmgr))
     
     mailmgr.send()
     
