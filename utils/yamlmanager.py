@@ -1,4 +1,5 @@
 from os import stat
+
 import yaml
 
 class YamlManager:

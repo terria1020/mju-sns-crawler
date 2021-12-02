@@ -11,12 +11,6 @@ from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk
 
-
-# python crawl.py -n 3
-
-# https://hyebit.tistory.com/49
- # 파일 경로와 데이터를 매개변수로 받아서 파일 작성.
-
 def writeToFile(filePath, data):
     # 텍스트 모드로 쓰기
     file = open(filePath, 'w', encoding='utf8')
@@ -93,23 +87,6 @@ def downloadImage(imageUrl, imagePath):
 
 
 def runCrawl(browser, queryList, limitNum):
-    #browser = Browser("driver/chromedriver")
-    
-    # ==========================================================================
-    # =============================================================================
-    # tklnter GUI
-
-    #tkinterSep.GUIstart(browser)
-    
-
-    # ====================================================================
-    # ====================================================================
-
-
-
-    # GUIstart가 계정 목록 리턴하게 만듬.
-    #queryList = list(tkinterSep.GUIstart(browser)) # 계정 목록들 GUI에서 가져옴
-
     for query in queryList:
         browser.clearLink() # urlList 초기화
         makeDir("data") # data 디렉토리 생성

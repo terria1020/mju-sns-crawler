@@ -1,18 +1,18 @@
+import time
 from tkinter import *
 from tkinter import messagebox
+
 from PIL import ImageTk
-import time
-from utils.browser import Browser
-from utils.mail_manager import MailManager, DataReader
-from utils.yamlmanager import YamlManager
+
+import extra_crawler
 import facebook_crawler
 import insta_crawler
-import extra_crawler
+from utils.browser import Browser
+from utils.mail_manager import DataReader, MailManager
+from utils.yamlmanager import YamlManager
+
 
 def face_func(entId, entPw): # face버튼 눌렀을 때 함수
-    #print("facebook 버튼 클릭됨")
-    #print(entId.get()) # 아이디 출력
-    #print(entPw.get()) # 비밀번호 출력
     facebook_crawler.faceCrawl()
 
 def complete_func(entEmail): # 완료 버튼 눌렀을 때 함수
@@ -27,10 +27,6 @@ def complete_func(entEmail): # 완료 버튼 눌렀을 때 함수
     mailmgr.data_append(DataReader.extra_read(mailmgr))
     
     mailmgr.send()
-    
-    # print(entEmail.get()) # 이메일 출력
-    # entEmail.delete(0, END)
-
 
 def newTask(entAddAccount, lb): # add task 버튼 눌렀을 때 함수
     task = entAddAccount.get()
@@ -47,12 +43,7 @@ def deleteTask(lb): # delete task 버튼 눌렀을 때 함수
 
 def printList(listbox, lb, browser): # 추가 사이트 선택한것들 출력 (listBtn 눌렀을때)
     print(listbox.curselection())
-    #print(lb.get(0, lb.size()))
     extra_crawler.main(browser, listbox.curselection())
-
-
-
-
 
 def GUIstart(browser):
     
@@ -118,7 +109,6 @@ def GUIstart(browser):
         pady=10,
         #command = lambda: face_func(entId, entPw) # 눌렀을 시 실행 메서드
     )
-    #face_btn.pack(fill=BOTH, expand=True, side=LEFT)
 
     frame = Frame(root)
     frame.pack(pady=10)
@@ -136,11 +126,6 @@ def GUIstart(browser):
         
     )
     lb.pack(side=LEFT, fill=BOTH)
-
-    # task_list = [
-    #     'myongji_univ',
-    #     'mju_run'
-    #     ]
 
     task_list = YamlManager.read("Tasklist")
 
@@ -234,8 +219,6 @@ def GUIstart(browser):
         time.sleep(8.0)
         browser.driver.find_element_by_xpath('/html/body/div[5]/div/div/div/div[3]/button[2]').click()
         time.sleep(8.0)
-        #root.quit() # GUI 실행 종료되긴 하는데 응답없음 뜨고 안닫힘. --> 이거 함수로 만듬
-        #root.destroy() # 이거 쓰면 오류 뜸
         insta_crawler.main(browser, lb.get(0, lb.size()), int(entNum.get())) ########################## 인스타 버튼 누르면 crawl.py 실행
 
 
@@ -245,12 +228,9 @@ def GUIstart(browser):
     insta_btn.config(command = instaLogin) # id, pw입력하고 insta버튼 누르면 로그인 실행
     insta_btn.pack(fill=BOTH, expand=True, side=LEFT)
 
-    #face_btn.config(command = lambda: face_func(entId, entPw)) # id, pw입력하고 insta버튼 누르면 로그인 실행
     face_btn.config(command = faceLogin)
     face_btn.pack(fill=BOTH, expand=True, side=LEFT)
     
     root.mainloop() # 로그인 하고 tkinter 닫으면 크롤링 실행
-    #return lb.get(0, lb.size()) # GUIstart가 계정 목록 리턴하게 만듬.
-    
 
 GUIstart(Browser("driver/chromedriver"))

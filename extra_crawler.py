@@ -1,19 +1,17 @@
 import os
+import time
+
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-import pandas as pd
-import time
+from selenium.webdriver.common.keys import Keys
 
 DATA_FILE = 'mju.txt'
 
 options = webdriver.ChromeOptions()
 options.headless = True
-
-#driver = webdriver.Chrome("./driver/chromedriver",options=options)
-
     
 def is_file_exist():
     try:
@@ -30,18 +28,14 @@ def write_to_text(list_links):
     if list_links not in data:
         file.write(list_links)
         file.write("\n")
-  
-        # else:
 
 def crawlMju():
     response = requests.get("http://www.mju.ac.kr/mjukr/257/subview.do")
     html = response.text
     soup = BeautifulSoup(html,'html.parser')
 
- 
     links = soup.find_all(class_="artclLinkView",limit=2)
     
-
     print()
     print("학사 공지")
     print()
@@ -52,11 +46,6 @@ def crawlMju():
         str = title +"\t\t"+ "https://mju.ac.kr" + url
         print(title,url)
         write_to_text(str)
-
-
-    
-
-
 
 def crawlCom(driver):
     driver.goToPage("http://jw4.mju.ac.kr/user/cs/index.action")
@@ -76,11 +65,6 @@ def crawlCom(driver):
     print()
     print("학과 공지")
     print()
-
-    #  for link in links1:
-    #    url1 = link.attrs['href']
-    #    title = link.text
-    #    print(title.strip(),url1)
 
     url1 = link1.attrs['href']
     url2 = link2.attrs['href']
@@ -105,17 +89,10 @@ def crawlNews():
     number1 = soup.select_one("#relateSite3 > li:nth-child(1) > a > div.artclInfo > div.artclTitle > strong")
     number2 = soup.select_one("#relateSite3 > li:nth-child(2) > a > div.artclInfo > div.artclTitle > strong")
 
-    #links1 = soup.select('.artclTitle>strong')
-   
     print()    
     print("명대 신문")    
     print()
 
-    #for link in links:
-    #    url = link.attrs['href']
-    #    for link1 in links1:
-    #        number = link1.text
-    #    print(number,url)
     url1 = link1.attrs['href']
     url2 = link2.attrs['href']
     numberof1 = number1.text
@@ -127,18 +104,6 @@ def crawlNews():
     write_to_text(str1)
     write_to_text(str2)
 
-'''def main(driver):
-    a,b,c = input("1: 학사 공지  2:학과 공지   3:명대 신문").split()
-    if(b == None):
-        crawlMju()
-    if(c == None):
-        crawlMju()
-        crawlCom(driver)
-    else:
-        crawlMju()
-        crawlCom(driver)
-        crawlNews()'''
-
 def main(driver, tuple):
     print("1: 학사 공지  2:학과 공지   3:명대 신문")
     if (0 in tuple):
@@ -147,7 +112,3 @@ def main(driver, tuple):
         crawlCom(driver)
     if (2 in tuple):
         crawlNews()
-
-
-#if __name__ == "__main__":
-#    main(driver)

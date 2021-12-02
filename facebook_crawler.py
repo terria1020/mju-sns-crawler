@@ -4,14 +4,12 @@ import sys
 from random import randint
 from time import sleep
 
+import yaml
 from bs4 import BeautifulSoup
+from docopt import docopt
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
-
-from docopt import docopt
-
-import yaml
 
 # Made by 7heKnight
 
@@ -62,9 +60,6 @@ def write_to_text(list_links):
 # ========================== Browser Process ==========================
 def chrome_options():
     options = webdriver.ChromeOptions()
-    # options.add_argument('--no-sandbox') # This will prevent malicious code, not useful, just note to remember.
-    #options.headless = True # This will make the chrome executed in hidden process
-    # options.add_argument('--headless') # This is another way of the upper
     options.add_experimental_option('excludeSwitches', ['enable-logging']) # This will disable print the console information
     # 크롬 드라이버에 추가 옵션을 설정 해 주는 메소드, 인자: key, value로 제공되어 있다.
     options.add_experimental_option("prefs", {"profile.default_content_setting_values.notifications": 2}) # Disable the asking allow notification or block
