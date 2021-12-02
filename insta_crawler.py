@@ -182,7 +182,7 @@ def runCrawl(browser, queryList, limitNum):
 def main(browser, queryList, limitNum):
     args = docopt("""
     Usage:
-        crawl.py [-n NUMBER] [--a] [-h HELP]
+        insta_crawler.py [-n NUMBER] [--a] [-h HELP]
     
     Options:
         -n NUM    number of returned posts [default: 1000]
