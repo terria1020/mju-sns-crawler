@@ -1,6 +1,8 @@
-from docopt import docopt
 import os
 import shutil
+
+from docopt import docopt
+
 
 def makeDir(dirPath):
     if not os.path.exists(dirPath):

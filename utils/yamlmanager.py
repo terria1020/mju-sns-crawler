@@ -2,6 +2,7 @@ from os import stat
 
 import yaml
 
+
 class YamlManager:
     @staticmethod
     def read(type: str):

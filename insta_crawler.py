@@ -1,16 +1,14 @@
-import time
+import html
 import os
-import tkinter
 import shutil
-from bs4 import BeautifulSoup
+import time
+from tkinter import *
+
 import requests
-from utils.browser import Browser
+from bs4 import BeautifulSoup
 from docopt import docopt
 from tqdm import tqdm
-import html
-from tkinter import *
-from tkinter import messagebox
-from PIL import ImageTk
+
 
 def writeToFile(filePath, data):
     # 텍스트 모드로 쓰기
@@ -84,8 +82,6 @@ def downloadImage(imageUrl, imagePath):
     # imagePath경로에 바이너리 모드로 쓰기
     with open(imagePath, 'wb') as handler:
         handler.write(img_data)
-
-
 
 def runCrawl(browser, queryList, limitNum):
     for query in queryList:
@@ -179,5 +175,3 @@ def main(browser, queryList, limitNum):
         return
 
     runCrawl(browser, queryList, limitNum)
-
-#main()

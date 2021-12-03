@@ -65,13 +65,11 @@ class DataReader():
     def insta_read(mailmgr: MailManager):
         content = "인스타그램 크롤링 결과 입니다.<hr>"
         tasklist = os.listdir(f"data/")
-        print(tasklist)
         if ".DS_Store" in tasklist:
             tasklist.remove(".DS_Store")
         for task in tasklist:
             try:
                 file_list = os.listdir(f"data/{task}")
-                print(file_list)
             except FileNotFoundError:
                 return ""
             else:

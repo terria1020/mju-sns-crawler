@@ -1,12 +1,9 @@
-import os
 import time
 
-import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
+
 
 DATA_FILE = 'mju.txt'
 
@@ -50,10 +47,10 @@ def crawlMju():
 def crawlCom(driver):
     driver.goToPage("http://jw4.mju.ac.kr/user/cs/index.action")
     driver.switch("index_frame")
-    #driver.implicitly_wait(3)
+
     time.sleep(3.0)
     driver.driver.find_element_by_xpath("""//*[@id="menuli5"]/a""").click()
-    #driver.implicitly_wait(3)
+
     time.sleep(3.0)
     req = driver.getPageSource()
     soup = BeautifulSoup(req, 'html.parser')

@@ -12,8 +12,6 @@ from utils.mail_manager import DataReader, MailManager
 from utils.yamlmanager import YamlManager
 
 
-
-
 def complete_func(entEmail): # 완료 버튼 눌렀을 때 함수
     print("완료 버튼 클릭됨")
     mailmgr = MailManager(entEmail.get())
@@ -199,10 +197,6 @@ def GUIstart(browser):
     # 완료 버튼 클릭 시 입력한 이메일로 메일 보냄
     complete_btn = Button(root, padx=10, pady=10, text = "완료", command = lambda: complete_func(entEmail))
     complete_btn.pack()
-
-    '''instaEndBtn = Button(root, padx=10, pady=10, text = "인스타완료")
-    #instaEndBtn = Button(root, padx=10, pady=10, text = "인스타완료", command = lambda: insta_end_func(root))
-    instaEndBtn.pack()'''
 
     def instaLogin(): # 인스타 로그인 메서드
         browser.goToPage("https://www.instagram.com/accounts/login/")
