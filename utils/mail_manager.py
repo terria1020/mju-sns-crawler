@@ -63,7 +63,7 @@ class MailManager():
 class DataReader():
     @staticmethod
     def insta_read(tasklist: list, mailmgr: MailManager):
-        content = ""
+        content = "인스타그램 크롤링 결과 입니다."
         for task in tasklist:
             try:
                 file_list = os.listdir(f"data/{task}")
@@ -83,7 +83,7 @@ class DataReader():
 
     @staticmethod
     def extra_read(mailmgr: MailManager):
-        content = ""
+        content = "기타 사이트 크롤링 결과 입니다.<hr>"
 
         try:
             with open("mju.txt", "r", encoding="UTF8") as file:
