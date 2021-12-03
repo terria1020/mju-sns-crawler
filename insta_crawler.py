@@ -1,6 +1,7 @@
 import time
 import os
 import tkinter
+import shutil
 from bs4 import BeautifulSoup
 import requests
 from utils.browser import Browser
@@ -110,7 +111,10 @@ def runCrawl(browser, queryList, limitNum):
         slist = list(set(browser.urlList)) # 각 포스트 url 리스트 저장
 
 
+        dir_path = "data/"
 
+        if os.path.exists(dir_path):
+            shutil.rmtree(dir_path)
 
         for url in tqdm(slist): # 프로세스 바
             dirName = url.split("/")[4]

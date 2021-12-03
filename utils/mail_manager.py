@@ -46,7 +46,7 @@ class MailManager():
 
     def add_image(self, path: str, cid_numbering: int = 0):
         with open(path, "rb") as file:
-            image = MIMEImage(file.read(), Name="image.jpg")
+            image = MIMEImage(file.read(), name=f"image.jpg", _subtype="jpeg")
             image.add_header('Content-ID', f'<capture{cid_numbering}>')
             self.data.attach(image)
 
@@ -62,11 +62,16 @@ class MailManager():
 
 class DataReader():
     @staticmethod
-    def insta_read(tasklist: list, mailmgr: MailManager):
-        content = "인스타그램 크롤링 결과 입니다."
+    def insta_read(mailmgr: MailManager):
+        content = "인스타그램 크롤링 결과 입니다.<hr>"
+        tasklist = os.listdir(f"data/")
+        print(tasklist)
+        if ".DS_Store" in tasklist:
+            tasklist.remove(".DS_Store")
         for task in tasklist:
             try:
                 file_list = os.listdir(f"data/{task}")
+                print(file_list)
             except FileNotFoundError:
                 return ""
             else:
@@ -97,5 +102,23 @@ class DataReader():
 
     @staticmethod
     def facebook_read(mailmgr: MailManager):
-        content = ""
+        content = "페이스북 크롤링 결과 입니다.<hr>"
+        tasklist = os.listdir(f"facebookdata/")
+        if ".DS_Store" in tasklist:
+            tasklist.remove(".DS_Store")
+        for task in tasklist:
+            try:
+                file_list = os.listdir(f"facebookdata/{task}")
+            except FileNotFoundError:
+                return ""
+            else:
+                if ".DS_Store" in file_list:
+                    file_list.remove(".DS_Store")
+
+                for seed in file_list:
+                    mailmgr.add_image(f"facebookdata/{task}/{seed}/image.jpg", MailManager.CID_NUMBERING)
+                    with open(f"facebookdata/{task}/{seed}/info.txt", "r", encoding='UTF8') as f:
+                        lines = f.readlines()
+                    content = content + "<hr>" +f"<br><img src='cid:capture{MailManager.CID_NUMBERING}'><br>" + lines[1] + "<br>" + lines[4] + "<br>" + lines[7]
+                    MailManager.CID_NUMBERING += 1
         return content

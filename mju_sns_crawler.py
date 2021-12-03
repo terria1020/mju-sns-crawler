@@ -12,18 +12,16 @@ from utils.mail_manager import DataReader, MailManager
 from utils.yamlmanager import YamlManager
 
 
-def face_func(entId, entPw): # face버튼 눌렀을 때 함수
-    facebook_crawler.faceCrawl()
+
 
 def complete_func(entEmail): # 완료 버튼 눌렀을 때 함수
     print("완료 버튼 클릭됨")
     mailmgr = MailManager(entEmail.get())
-    tasklist = YamlManager.read("Tasklist")
 
     mailmgr.add_title("새 알림이 있습니다.")
 
+    mailmgr.data_append(DataReader.insta_read(mailmgr))
     mailmgr.data_append(DataReader.facebook_read(mailmgr))
-    mailmgr.data_append(DataReader.insta_read(tasklist, mailmgr))
     mailmgr.data_append(DataReader.extra_read(mailmgr))
     
     mailmgr.send()
@@ -221,14 +219,13 @@ def GUIstart(browser):
         time.sleep(8.0)
         insta_crawler.main(browser, lb.get(0, lb.size()), int(entNum.get())) ########################## 인스타 버튼 누르면 crawl.py 실행
 
-
-    def faceLogin(): # 페이스북 로그인? 메서드
-        browser.goToPage("https://ko-kr.facebook.com/")
-
     insta_btn.config(command = instaLogin) # id, pw입력하고 insta버튼 누르면 로그인 실행
     insta_btn.pack(fill=BOTH, expand=True, side=LEFT)
 
-    face_btn.config(command = faceLogin)
+    def face_func(): # face버튼 눌렀을 때 함수
+        facebook_crawler.faceCrawl(browser, lb.get(0, lb.size()), int(entNum.get()), entId.get(), entPw.get())
+
+    face_btn.config(command = face_func)
     face_btn.pack(fill=BOTH, expand=True, side=LEFT)
     
     root.mainloop() # 로그인 하고 tkinter 닫으면 크롤링 실행
