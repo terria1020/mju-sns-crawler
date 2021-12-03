@@ -184,7 +184,7 @@ def GUIstart(browser):
     entEmail = Entry(root, width=30) # 이메일 입력
     entEmail.insert(0, YamlManager.read("Sendto"))
     def entryclear(event):
-        if entEmail.get() == "enter email":    # 초기값인 경우 마우스클릭하면 지워지도록,...
+        if entEmail.get() == "sample@sample.com":    # 초기값인 경우 마우스클릭하면 지워지도록,...
             entEmail.delete(0,len(entEmail.get()))
     entEmail.bind("<Button-1>", entryclear)  # 마우스를 클릭하면 entryclear를 동작시켜라. 
 
