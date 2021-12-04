@@ -152,6 +152,11 @@ def faceCrawl(_browser, queryList, limitNum, user, passwd):
             image = soup2.find('img')
             author = soup2.find('a', attrs={'class': 'oajrlxb2 g5ia77u1 qu0x051f esr5mh6w e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 nc684nl6 p7hjln8o kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x jb3vyjys rz4wbd8a qt6c0cv9 a8nywdso i1ao9s8h esuyzwwr f1sip0of lzcic4wl oo9gr5id gpro0wi8 lrazzd5p'})
             content = soup2.find('span', attrs={'class': 'd2edcug0 hpfvmrgz qv66sw1b c1et5uql oi732d6d ik7dh3pa ht8s03o8 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb iv3no6db jq4qci2q a3bd9o3v b1v8xokw oo9gr5id'})
+            if content:
+                content = content.text
+            else:
+                content = ""
+            
 
             image_src = image['src']
 
@@ -161,7 +166,7 @@ def faceCrawl(_browser, queryList, limitNum, user, passwd):
                 "facebookdata/"+url.split('/')[3]+"/"+url.split('/')[5][0:10]+"/info.txt", 
                 [   
                     "author: ", author.text, "",
-                    "content: ", content.text, "",
+                    "content: ", content, "",
                     "url: ", url
                 ]
             )

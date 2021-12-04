@@ -84,6 +84,11 @@ def downloadImage(imageUrl, imagePath):
         handler.write(img_data)
 
 def runCrawl(browser, queryList, limitNum):
+    dir_path = "data/"
+
+    if os.path.exists(dir_path):
+        shutil.rmtree(dir_path)
+
     for query in queryList:
         browser.clearLink() # urlList 초기화
         makeDir("data") # data 디렉토리 생성
@@ -95,7 +100,6 @@ def runCrawl(browser, queryList, limitNum):
             mUrl = "https://www.instagram.com/explore/tags/"+query[1:]+"/?hl=en"
         else: # 사용자 검색일 경우               pytohn
             mUrl = "https://www.instagram.com/"+query+"/?hl=en"
-        
             
         browser.goToPage(mUrl) # driver.get(murl) # 주소로 이동
 
@@ -105,12 +109,6 @@ def runCrawl(browser, queryList, limitNum):
 
         print("collecting data...")
         slist = list(set(browser.urlList)) # 각 포스트 url 리스트 저장
-
-
-        dir_path = "data/"
-
-        if os.path.exists(dir_path):
-            shutil.rmtree(dir_path)
 
         for url in tqdm(slist): # 프로세스 바
             dirName = url.split("/")[4]
