@@ -6,11 +6,11 @@ import yaml
 class YamlManager:
     @staticmethod
     def read(type: str):
-        with open("querylist.yaml", "r") as file:
+        with open("querylist.yaml", "r", encoding='utf-8') as file:
             return yaml.safe_load(file)[type]
 
     def write(type: str, data: str):
-        with open("querylist.yaml", "r") as file:
+        with open("querylist.yaml", "r", encoding='utf-8') as file:
             yaml_data = yaml.safe_load(file)
             yaml_data[type].append(data)
 
@@ -18,7 +18,7 @@ class YamlManager:
             yaml.safe_dump(yaml_data, file, allow_unicode=True, sort_keys=False)
 
     def remove(type:str, data: str):
-        with open("querylist.yaml", "r") as file:
+        with open("querylist.yaml", "r", encoding='utf-8') as file:
             yaml_data = yaml.safe_load(file)
             yaml_data[type].remove(data)
 
