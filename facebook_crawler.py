@@ -15,10 +15,12 @@ from insta_crawler import downloadImage, makeDir, writeToFile
 # Made by 7heKnight
 
 # ========================== Pre-Declare==========================
-if platform.system() == "Darwin": # Mac OS
+'''if platform.system() == "Darwin": # Mac OS
     DRIVER = 'driver/chromedriver'
 elif platform.system == "Windows": # Windows
-    DRIVER = 'driver\\chromedriver.exe'
+    DRIVER = 'driver\\chromedriver.exe'''
+
+DRIVER = 'driver/chromedriver' # 위도우 맥 같음
 URL = 'https://facebook.com'
 DATA_FILE = 'data.txt'
 QUERY_FILE = 'querylist.yaml'
